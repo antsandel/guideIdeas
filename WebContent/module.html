@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Getting started Idea Studio</title>
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/prism.css" rel="stylesheet">
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<link href="css/styles.css" rel="stylesheet">
+		<script src="js/jquery-1.12.0.min.js" type="text/javascript"></script> 
+		<script src="js/funciones.js" type="text/javascript"></script>
+		<script type="text/javascript">
+		</script>
+	</head>
+	<body>
+<div id="masthead">  
+  <div class="container">
+      <div class="row">
+        <div class="col-md-7">
+          <h1>Language Module:
+          </h1>
+        </div>
+      </div> 
+  </div><!--/container-->
+</div><!--/masthead-->
+
+<!--main-->
+<div class="container">
+	<div class="row">
+      <!--left-->
+      <div class="col-md-3" id="leftCol">
+        <ul class="nav nav-stacked" id="sidebar">
+		  <li><a href="#sec0">Introduction</a></li>
+		  <li><a href="#sec3">Creating a new module</a>
+		  <!-- <ul class="subnav"> -->	
+          	<li><a href="#secNewModuleEclipse">New module with Eclipse</a></li>
+			<li><a href="#secNewModuleNetBeans">New module with NetBeans</a></li>
+          <!-- </ul> -->
+		  <li><a href="#sec4">Create controller</a>
+		  <li><a href="#sec5">Deploying the module</a>
+        </ul>
+      </div><!--/left-->
+      
+      <!--right-->
+	  <div class="col-md-9">
+		<div id="sec0">
+	        <h2 id="sec0_">Introduction</h2>
+	        	<hr>
+	        <p>This guides assumes that you have completed the <a href="index.html">Get Started Guide</a> or are familiarized with what it describes.</p>
+			<p>To create a new language module is necessary to create a service that implements the language API REST. Any particular technology is imposed, but Spring MVC is recommended, as it would use the core of IDEAS, extending <a href="https://github.com/isa-group/ideas-studio/wiki/BaseLanguageController">BaseLanguageController</a> and using the Java object models (and their corresponding JSON transformations). See <a href="https://github.com/isa-group/ideas-studio/wiki/AppResponse">AppResponse</a>, <a href="https://github.com/isa-group/ideas-studio/wiki/AppAnnotations">AppAnnotations</a> and <a href="https://github.com/isa-group/ideas-studio/wiki/language_manifest-sample-json">language_manifest sample json</a>.</p>
+	        
+        </div>
+		<div id="sec3">
+	        <h2 id="sec1_">Creating a new module</h2>
+	        	<hr>
+	       		<p>The most practical process is to use one of the existing modules, such as the basic language module, but this guide also covers the creation of a project from a scratch, obteining at the end a basic functional project. </p>
+				<ol>
+					<li>Use module <a href="https://github.com/isa-group/ideas-module-sample">ideas-module-sample</a> as an example, it supports files of format: .sample.
+					<li>If we consider the language "ideas-language-sample", in <em> src/main/webapp/WEB-INF/classes</em> we will find:
+					<ol><li> Directory [modes] that includes all syntaz highlighters (javascript) required by Ace editor.</li>
+					<li>File [language_manifest.json] that specifies the features, operations and formats supported by the language module. This file also specifies the URI of the language hel index page.</li>
+					</ol>
+					<li>On <em>ideas-language-sample/src/main/java/es.us.isa.ideas.controller.sample</em> you will find the controller that should be implemented with the minimal functionality. It contains 3 methos:
+					<ol><li><b>executeOperation():</b> implements analysis operations.</li>
+					<li><b>checkLanguage():</b> implements parsing to ensure that the language is well formed in terms of syntax.</li>
+					<li><b>convertFormat():</b> implements the conversion between formats of the same language, eg html-xml.</li>
+					</ol>
+					<br>
+					<p>All methods must be return an <em>AppResponse</em> object.</p>
+					<p>Together with this controller you will find the <em>HelpController</em> that contains the <b>help()</b> method that redirects to the helpURI specified on [language_manifest.json]. The default value for this key is "/views/help/index.jsp".</p>
+				</ol>
+			
+			<div id="secNewModuleEclipse">
+	       		<h4>New module with Eclipse:</h4>
+				<!--You can use the ideas-module-sample as a reference to create the new module so you only need to change some of the files -->
+	       	</div>
+	        <br>
+			<div id="secNewModuleNetBeans">
+	       		<h4>New module with Netbeans:</h4>
+				<p>You can use the ideas-module-sample as a reference to create the new module so you only need to change some of the files</p>
+				<p>If you are using NetBeans for your project then your project structure will be as follows:
+				<ul><li>ideas-base-module</li>
+					<ul><li>Modules</li>
+					<li>Dependencies</li>
+					<li>Project Files</li></ul></ul>
+				<p>You have to modify the pom.xml into the "Project Files" to specify the desired modules structure and specify the encoding. Notice that the name you use to the module and the subproject in the languages folder has to be exactly the same. </p>
+				<pre><code class="language-http"><<span>project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>>
+	<<span>modelVersion>4.0.0<span><</span>/modelVersion</span>>
+	<<span>groupId>es.us.isa.ideas.module<span><</span>/groupId</span>>
+	<<span>artifactId>ideas-module-sample<span><</span>/artifactId</span>>
+	<<span>version>1.0.0</span><span><</span>/version>
+	<<span>packaging>pom<span><</span>/packaging</span>>
+	<<span>name>ideas-module-sample<span><</span>/name </span>>
+	
+	<<span>modules</span>>
+		<<span>module><strong>languages/ideas-language-sample</strong><span><</span>/module</span>>
+	<<span>/modules</span>>
+	<<span>properties</span>>
+		<<span>project.build.sourceEncoding>UTF-8<span><</span>/project.build.sourceEncoding</span>>
+	<<span>/properties</span>>
+	
+<<span>/project</span>></code>
+		 </pre>
+		 <p>After the pom.xml is modified run the project by making double click on the <em>ideas-language-sample</em>. You will find this file in "Modules" folder. <br>Your project view should looks like the next one.</p><br>	
+		 <ul><center><img src="img/languageStructure.png" style="border:solid; border-color:gray;"></center></ul><br>
+		 <p>The next step is to modify the following files from the <em>ideas-language-sample</em>.</p>
+		 <ol><strong><li>pom.xml</strong></li>
+		 <p>This is the language POM and you will have to configure the subproject, including any necessary dependency and/or repository.</p>
+		 <pre><<span>project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>>
+	<<span>modelVersion>4.0.0<span><</span></span>/modelVersion>
+	<<span>parent</span>>
+		<<span>groupId>es.us.isa.ideas.module<span><</span>/groupId</span>>
+		<<span>artifactId>ideas-module-sample<span><</span>/artifactId</span>>
+		<<span>version>1.0.0</span><span><</span>/version>
+		<<span>relativePath>./../../pom.xml<span><</span>/relativePath</span>>
+	<<span>/parent</span>>
+	<<span>groupId>es.us.isa.ideas.module.sample<span><</span>/groupId</span>>
+	<<span>artifactId>ideas-module-sample<span><</span>/artifactId</span>>
+	<<span>packaging>war<span><</span>/packaging</span>>
+	
+	<<span>!-- Properties --</span>>
+	
+	<<span>properties</span>>
+		<<span>ideas-base-module.version>0.7<span><</span>/ideas-base-module.version</span>>
+		<<span>aml.version>0.9.1-SNAPSHOT<span><</span>/aml.version</span>>
+		<<span>java.version>1.7<span><</span>/java.version</span>>
+		<<span>project.build.sourceEncoding>UTF-8<span><</span>/project.build.sourceEncoding</span>>
+		<<span>project.reporting.outputEncoding>UTF-8<span><</span>/project.reporting.outputEncoding</span>>
+	<<span>/properties</span>>
+	
+	<<span>repositories</span>>
+		<<span>repository</span>>
+			<<span>id>org.springframework.maven.release</span><span><</span>/id>
+			<<span>name>Spring Maven Release Repository</span><span><</span>/name>
+			<<span>url>http://repo.springsource.org/release</span><span><</span>/url>
+		<<span>/repository</span>>
+		
+		<<span>repository</span>>
+			<<span>id>central</span><span><</span>/id>
+			<<span>url>http://repo.maven.apache.org/maven2</span><span><</span>/url>
+		<<span>/repository</span>>
+	<<span>/repositories</span>>
+	
+	<<span>dependencies</span>>
+	
+		<<span>!-- IDEAS Dependencies --</span>>
+		<<span>dependency</span>>
+			<<span>groupId>es.us.isa.ideas</span><span><</span>/groupId>
+			<<span>artifactId>ideas-base-module</span><span><</span>/artifactId>
+			<<span>version>${ideas-base-module.version}</span><span><</span>/version>
+		<<span>/dependency</span>>
+		
+		<<span>!-- Javax --</span>>
+		<<span>dependency</span>>
+			<<span>groupId>javax.servlet</span><span><</span>/groupId>
+			<<span>artifactId>servlet-api</span><span><</span>/artifactId>
+			<<span>version>2.5</span><span><</span>/version>
+		<<span>/dependency</span>>
+		
+		<<span>dependency</span>>
+			<<span>groupId>es.us.isa</span><span><</span>/groupId>
+			<<span>artifactId>aml</span><span><</span>/artifactId>
+			<<span>version>${aml.version}</span><span><</span>/version>
+		<<span>/dependency</span>>
+		
+		<<span>dependency</span>>
+			<<span>groupId>junit</span><span><</span>/groupId>
+			<<span>artifactId>junit</span><span><</span>/artifactId>
+			<<span>version>4.11</span><span><</span>/version>
+		<<span>/dependency</span>>
+		
+		<<span>dependency</span>>
+			<<span>groupId>org.antlr</span><span><</span>/groupId>
+			<<span>artifactId>antlr4-runtime</span><span><</span>/artifactId>
+			<<span>version>4.5</span><span><</span>/version>
+			<<span>scope>compile</span><span><</span>/scope>
+		<<span>/dependency</span>>
+		
+	<<span>/dependencies</span>>
+	
+	<<span>build</span>>
+		<<span>plugins</span>>
+			<<span>plugin</span>>
+				<<span>groupId>org.apache.maven.plugins</span><span><</span>/groupId>
+				<<span>artifactId>maven-compiler-plugin</span><span><</span>/artifactId>
+				<<span>version>3.2</span><span><</span>/version>
+				<<span>configuration</span>>
+					<<span>source>${java.version}</span><span><</span>/source>
+					<<span>target>${java.version}</span><span><</span>/target>
+				<<span>/configuration</span>>
+			<<span>plugin</span>>
+		<<span>plugins</span>>
+	<<span>/build</span>>		
+<<span>/project</span>>
+		 </pre>
+		 
+		 <strong><li>language_manifest.json</strong></li>
+		 <p>This document describes the language we are going to work on. In this example, we will desing a language for files with extension <strong>.sample</strong>, with a single format "<strong>sample</strong>". You also will need to implement an ACE syntax mode <strong>mode-sample.js</strong> defined at <strong>ace/mode/sample</strong> and a <strong>theme-sample.js</strong> defined at <strong>ace/theme/sample</strong> for your own module. </p>
+		 
+		 <pre><code class="language-json">{
+	"id": "ideas-sample-laguage",
+	"extension": "sample",
+	"name": "SampleDoc",
+	"formats": [
+		{
+			"format": "sample_format",
+			"editorModeId": "ace/mode/sample",
+			"_editorModeURI": "mode-sample.js",
+			"editorThemeId": "ace/theme/sample",
+			"_editorThemeURI": "theme-sample.js",
+			"checkLanguage": "false"
+		}
+	],
+	"operations": [
+		{
+			"id": "test",
+			"name": "Test this document",
+			"data": {},
+			"_remoteExecution": "true",
+			"action": "function(operation, fileUri, result) {console.log(result);}"
+		}
+	],
+	"templateProjects": null,
+	"templateFiles": null,
+	"inspectorLoader": "function(loader, format) {}",
+	"helpURI": "/views/help/index.jsp"
+}</code></pre>
+		 <strong><li>mode-sample.js</strong></li>
+		 <p>This document defines the ACE syntax.  The mode consists of two pieces of code: the new mode, and the new set of syntax highlighting rules that you have to add to de mode document itself or make a reference to an external document. We recommend you to visit <a href="https://ace.c9.io/#nav=about">https://ace.c9.io</a>.</p>
+		 <p>You will find a lot of implemented modes here <a href="https://ace.c9.io/tool/mode_creator.html">ACE mode creator</a>.</p>
+		 <strong><li>sample-theme.js</strong></li>
+		 <p>The theme document defines how the code will be displayed in the editor. Similar to the previous document, this document consists also of two pieces: a <strong>.js</strong> file and a <strong>.css</strong> file that we can add to the same document or make it separately as before. You can download the theme you want here <a href="https://github.com/ajaxorg/ace/tree/master/lib/ace/theme">Ace themes</a>.</p>
+		 <p>To see different options of modes and themes availables you can visit <a href="https://ace.c9.io/build/kitchen-sink.html">Kitchen Sink</a>.</p>
+		 <strong><li>security.xml</strong></li>
+		 <p>Default security.xml:</p>
+		 <pre><<span>?xml version="1.0" encoding="UTF-8"?></span>
+		 
+<<span>beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd        
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd"></span>
+		
+	<<span>security:http auto-config="true" use-expressions="true"></span>
+		<<span>security:intercept-url pattern="/**" access="permitAll" requires-channel="https" /></span>
+		<<span>security:port-mappings></span>
+			<<span>security:port-mapping http="8888" https="8881" /></span>
+		<<span>/security:port-mappings></span>
+	<<span>/security:http></span>
+<<span>/beans</span></pre>
+		 <strong><li>web.xml</strong></li>
+		 <p>The web.xml file is as follows:
+		 <pre><<span>?xml version="1.0" encoding="UTF-8"?></span>
+<<span>!-- * web.xml * * Copyright (C) 2012 Universidad de Sevilla * * The use 
+of this project is hereby constrained to the conditions of the * TDG Licence, 
+a copy of which you may download from * http://www.tdg-seville.info/License.html --></span>
+<<span>web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5"></span>
+	<<span>display-name>ideas-language-sample<<span>/display-name></span>
+	<<span>servlet></span>
+		<<span>servlet-name>mvc-dispatcher<<span>/servlet-name></span>
+		<<span>servlet-class>org.springframework.web.servlet.DispatcherServlet<<span>/servlet-class></span>
+		<<span>load-on-startup>1<<span>/load-on-startup></span>
+	<<span>/servlet></span>
+	<<span>servlet-mapping></span>
+		<<span>servlet-name>mvc-dispatcher<<span>/servlet-name></span>
+		<<span>url-pattern>/<<span>/url-pattern></span>
+	<<span>/servlet-mapping></span>
+	<<span>context-param></span>
+		<<span>param-name>contextConfigLocation<<span>/param-name></span>
+		<<span>param-value>/WEB-INF/mvc-dispatcher-servlet.xml<<span>/param-value></span>
+	<<span>/context-param></span>
+	<<span>listener></span>
+		<<span>listener-class>org.springframework.web.context.ContextLoaderListener<<span>/listener-class></span>
+	<<span>/listener></span>
+<<span>/web-app></span>
+</pre><br>
+		<strong><li>context.xml</strong></li>
+		<p>This file contains the path to open the language so make sure it's correct.</p><br>
+		 </ol>
+	       	</div>	
+        </div>   
+		
+		<div id="sec4">
+	        <h2 id="sec4_">Create controller</h2>
+	        	<hr>
+	        <ul><li> The controller is a java file that extends to <a href="https://github.com/isa-group/ideas-studio/wiki/BaseLanguageController">BaseLanguageController</a>. This file it's located in <code>ideas-language-sample > Source Packages > es.us.isa.ideas.controller.sample</code> (the package should always start with <strong>es.us.isa.ideas.controller</strong>).</li><br>	      
+			<pre><code class="language-java">package es.us.isa.ideas.controller.sample;
+
+import es.us.isa.ideas.module.common.AppResponse;
+import es.us.isa.ideas.module.common.AppResponse.Status;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import es.us.isa.ideas.module.controller.BaseLanguageController;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@RequestMapping("/language")
+public class SampleLanguageController extends BaseLanguageController {
+
+    @RequestMapping(value = "/operation/{id}/execute", method = RequestMethod.POST)
+    @ResponseBody
+    @Override
+    public AppResponse executeOperation(String id, String content, String fileUri, String auxArg0) {
+
+        AppResponse appResponse = new AppResponse();
+        appResponse.setFileUri(fileUri);
+
+        if (id.equals("test")) {
+            String key = "hello world";
+            if (content.toLowerCase().contains(key)) {
+                appResponse.setHtmlMessage("<<span>pre><<span>b>This is a valid document.<<span>/b><<span>/pre>");
+                appResponse.setStatus(Status.OK);
+            } else {
+                appResponse.setHtmlMessage("<<span>pre><<span>b>This is an invalid document.<<span>/b><<span>br>Please, add the string \"" + key + "\" to validate your document.<<span>/pre>");
+                appResponse.setStatus(Status.OK_PROBLEMS);
+            }
+        }
+
+        return appResponse;
+    }
+
+    @RequestMapping(value = "/format/{format}/checkLanguage", method = RequestMethod.POST)
+    @ResponseBody
+    @Override
+    public AppResponse checkLanguage(String id, String content, String fileUri) {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
+    @RequestMapping(value = "/convert", method = RequestMethod.POST)
+    @ResponseBody
+    @Override
+    public AppResponse convertFormat(String currentFormat, String desiredFormat, String fileUri, String content) {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
+}
+			</code></pre>
+	        <br>
+			<p>It is responsibility of the developer implement of the 3 methods always returning an object of type AppResponse.</p>
+			<br>
+        </div>
+		<div id="sec5">
+	        <h2 id="sec5_">Deploying the module</h2>
+	        	<hr>
+			<p>Every module has a dependency with ideas-base-module so you will have to download from <a href=" https://github.com/isa-group/ideas-base-module.git"> https://github.com/isa-group/ideas-base-module.git</a>, import and build this project before deploying your module.
+			<br>To deploy the module you need to build without errors. Probably you will have some dependencies errors to solve before success. To solve this kind of problems make right-click in your project > Resolve Project Problems. Sometimes you will have to change the version of some dependencies. 
+			<p>To test the module in conjunction with IDEAS-studio you need to modify one file in <em>ideas-studio</em> project.
+	        <ol>
+	        <li><p>Open the studion configuration file <code>ideas-studio > src > main > webapp > WEB-INF > config > studio-configuration.json</code>.</p><p><strong>Note:</strong>if you are contributing on this project you should <strong>never</strong> modify the "studio-configuration.json" file. Instead of that, you must <strong>create</strong> a "develop-configuration.json" on the same path and with the same structure of the studio configuration file. The "studio-configuration.json" should be only modified by a release manager.</p></li>	       
+	        <li><p>Add a new line with the key value pair "id: uri" into "languages", indicating the module configuration values. For example, if you want to deploy the iAgree Template Language module, add the lines below:
+			<pre><code class="language-json">{
+	"languages": {
+		"iagree-template-language": "/ideas-iagree-template-language"
+	}
+}</code></pre></p>
+			<p>If you don't know which "id: uri" to add, you can find these values in <code>"ideas-module-name" > src > main > webapp > WEB-INF > classes > language_manifest.json</code>. The "uri" value correspond to the name of the generated language module <code>.war</code> file.</p></li>
+			<li>Build and run the language module. Now you can test the modulo with Ideas, the new language should appear in the languages list when you create a new file.</li>
+	        </ol>
+			<center><img src="img/LanguageModule.png" style="border:solid; border-color:gray;"></center>
+			</p>
+	        <br>
+        </div>		
+	    </div>
+        </div><!--/right-->
+  	</div><!--/row-->
+</div><!--/container-->
+
+
+
+	<!-- script references -->
+		<!--<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>-->
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/scripts.js"></script>
+		<script src="js/prism.js"></script>
+	</body>
+</html>
