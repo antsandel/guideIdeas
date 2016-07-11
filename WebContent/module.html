@@ -9,6 +9,7 @@
 		
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link href="css/prism.css" rel="stylesheet">
+		<link href="css/default.css" rel="stylesheet">
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
@@ -90,7 +91,7 @@
 					<li>Dependencies</li>
 					<li>Project Files</li></ul></ul>
 				<p>You have to modify the pom.xml into the "Project Files" to specify the desired modules structure and specify the encoding. Notice that the name you use to the module and the subproject in the languages folder has to be exactly the same. </p>
-				<pre><code class="language-http"><<span>project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				<pre><code class="xml"><<span>project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>>
 	<<span>modelVersion>4.0.0<span><</span>/modelVersion</span>>
 	<<span>groupId>es.us.isa.ideas.module<span><</span>/groupId</span>>
@@ -113,7 +114,7 @@
 		 <p>The next step is to modify the following files from the <em>ideas-language-sample</em>.</p>
 		 <ol><strong><li>pom.xml</strong></li>
 		 <p>This is the language POM and you will have to configure the subproject, including any necessary dependency and/or repository.</p>
-		 <pre><<span>project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 <pre><code class="xml"><<span>project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>>
 	<<span>modelVersion>4.0.0<span><</span></span>/modelVersion>
 	<<span>parent</span>>
@@ -200,7 +201,7 @@
 		<<span>plugins</span>>
 	<<span>/build</span>>		
 <<span>/project</span>>
-		 </pre>
+		 </code></pre>
 		 
 		 <strong><li>language_manifest.json</strong></li>
 		 <p>This document describes the language we are going to work on. In this example, we will desing a language for files with extension <strong>.sample</strong>, with a single format "<strong>sample</strong>". You also will need to implement an ACE syntax mode <strong>mode-sample.js</strong> defined at <strong>ace/mode/sample</strong> and a <strong>theme-sample.js</strong> defined at <strong>ace/theme/sample</strong> for your own module. </p>
@@ -241,7 +242,7 @@
 		 <p>To see different options of modes and themes availables you can visit <a href="https://ace.c9.io/build/kitchen-sink.html">Kitchen Sink</a>.</p>
 		 <strong><li>security.xml</strong></li>
 		 <p>Default security.xml:</p>
-		 <pre><<span>?xml version="1.0" encoding="UTF-8"?></span>
+		 <pre><code class="xml"><<span>?xml version="1.0" encoding="UTF-8"?></span>
 		 
 <<span>beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
@@ -282,7 +283,7 @@ a copy of which you may download from * http://www.tdg-seville.info/License.html
 		<<span>listener-class>org.springframework.web.context.ContextLoaderListener<<span>/listener-class></span>
 	<<span>/listener></span>
 <<span>/web-app></span>
-</pre><br>
+</code></pre><br>
 		<strong><li>context.xml</strong></li>
 		<p>This file contains the path to open the language so make sure it's correct.</p><br>
 		 </ol>
@@ -383,5 +384,7 @@ public class SampleLanguageController extends BaseLanguageController {
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/scripts.js"></script>
 		<script src="js/prism.js"></script>
+		<script src="js/highlight.pack.js"></script>
+		<script>hljs.initHighlightingOnLoad();</script>
 	</body>
 </html>
