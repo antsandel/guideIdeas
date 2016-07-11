@@ -100,7 +100,7 @@
 	 			<p>To clone the repositories you can use the following steps on SourceTree:</p>
 	 			
 	 			<ol class="romanos">
-	 			<li>Press Clone/New: <img src="img/buttonClone.png"></li>
+	 			<li>Press Clone/New: <img src="img/buttonClone.PNG"></li>
 	 			<li>Now the clone repository tab , put the url of the repository in "Source Path / URL".</li>
 	 			<li>In "Destination Path" you can change the destination where the repository is stored.</li>
 	 			<li>Once completed the steps above press "Clone" and wait a few minutes.</li>
